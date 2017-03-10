@@ -12,7 +12,7 @@ Model = require './model'
 Selection = require './selection'
 TextMateScopeSelector = require('first-mate').ScopeSelector
 GutterContainer = require './gutter-container'
-TextEditorComponent = require './text-editor-component'
+TextEditorComponent = null
 {isDoubleWidthCharacter, isHalfWidthCharacter, isKoreanCharacter, isWrapBoundary} = require './text-utils'
 
 ZERO_WIDTH_NBSP = '\ufeff'
@@ -3546,6 +3546,7 @@ class TextEditor extends Model
 
   # Get the Element for the editor.
   getElement: ->
+    TextEditorComponent ?= require('./text-editor-component')
     new TextEditorComponent({model: this})
     @component.element
 
