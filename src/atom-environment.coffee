@@ -151,6 +151,7 @@ class AtomEnvironment extends Model
     @deserializeTimings = {}
 
     @views = new ViewRegistry(this)
+    TextEditor.setScheduler(@views)
 
     @notifications = new NotificationManager
 
