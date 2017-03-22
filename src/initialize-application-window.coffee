@@ -75,6 +75,7 @@ module.exports = ({blobStore}) ->
 
   clipboard = new Clipboard
   TextEditor.setClipboard(clipboard)
+  TextEditor.viewForOverlayItem = (item) -> atom.views.getView(item)
 
   window.atom = new AtomEnvironment({
     window, document, clipboard, blobStore,
