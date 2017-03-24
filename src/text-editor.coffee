@@ -2670,7 +2670,6 @@ class TextEditor extends Model
     _.last(@selections)
 
   getSelectionAtScreenPosition: (position) ->
-    debugger if global.debug
     markers = @selectionsMarkerLayer.findMarkers(containsScreenPosition: position)
     if markers.length > 0
       @cursorsByMarkerId.get(markers[0].id).selection
@@ -3403,6 +3402,9 @@ class TextEditor extends Model
   # Returns an {Array} of {Gutter}s.
   getGutters: ->
     @gutterContainer.getGutters()
+
+  getLineNumberGutter: ->
+    @lineNumberGutter
 
   # Essential: Get the gutter with the given name.
   #
