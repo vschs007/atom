@@ -2371,6 +2371,7 @@ class LinesTileComponent {
       if (newProps.width !== this.props.width) {
         this.linesVnode = null
       }
+      if (newProps.measuredContent) this.highlightDecorationsToRender = newProps.highlightDecorations
       this.props = newProps
       etch.updateSync(this)
     }
@@ -2398,20 +2399,20 @@ class LinesTileComponent {
   }
 
   renderHighlights () {
-    const {measuredContent, top, height, width, lineHeight, highlightDecorations} = this.props
+    const {measuredContent, top, height, width, lineHeight} = this.props
 
     if (measuredContent) {
       let children = null
-      if (highlightDecorations) {
-        const decorationCount = highlightDecorations.length
+      if (this.highlightDecorationsToRender) {
+        const decorationCount = this.highlightDecorationsToRender.length
         children = new Array(decorationCount)
         for (let i = 0; i < decorationCount; i++) {
           const highlightProps = Object.assign(
             {parentTileTop: top, lineHeight},
-            highlightDecorations[i]
+            this.highlightDecorationsToRender[i]
           )
           children[i] = $(HighlightComponent, highlightProps)
-          highlightDecorations[i].flashRequested = false
+          this.highlightDecorationsToRender[i].flashRequested = false
         }
       }
 
@@ -2477,14 +2478,14 @@ class LinesTileComponent {
     if (!arraysEqual(oldProps.screenLines, newProps.screenLines)) return true
     if (!arraysEqual(oldProps.lineDecorations, newProps.lineDecorations)) return true
 
-    if (!oldProps.highlightDecorations && newProps.highlightDecorations) return true
-    if (oldProps.highlightDecorations && !newProps.highlightDecorations) return true
+    if (!this.highlightDecorationsToRender && newProps.highlightDecorations) return true
+    if (this.highlightDecorationsToRender && !newProps.highlightDecorations) return true
 
-    if (oldProps.highlightDecorations && newProps.highlightDecorations) {
-      if (oldProps.highlightDecorations.length !== newProps.highlightDecorations.length) return true
+    if (this.highlightDecorationsToRender && newProps.highlightDecorations) {
+      if (this.highlightDecorationsToRender.length !== newProps.highlightDecorations.length) return true
 
-      for (let i = 0, length = oldProps.highlightDecorations.length; i < length; i++) {
-        const oldHighlight = oldProps.highlightDecorations[i]
+      for (let i = 0, length = this.highlightDecorationsToRender.length; i < length; i++) {
+        const oldHighlight = this.highlightDecorationsToRender[i]
         const newHighlight = newProps.highlightDecorations[i]
         if (oldHighlight.className !== newHighlight.className) return true
         if (newHighlight.flashRequested) return true

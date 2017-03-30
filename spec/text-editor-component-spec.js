@@ -920,6 +920,19 @@ describe('TextEditorComponent', () => {
       expect(highlights[0].classList.contains('a')).toBe(true)
       expect(highlights[1].classList.contains('c')).toBe(true)
     })
+
+    it('clears highlight decorations when tiles are recycled (regression)', async () => {
+      const {component, element, editor} = buildComponent({rowsPerTile: 1})
+      await setEditorHeightInLines(component, 3)
+
+      const marker = editor.markScreenRange([[0, 0], [0, Infinity]])
+      editor.decorateMarker(marker, {type: 'highlight', class: 'a'})
+      await component.getNextUpdatePromise()
+      expect(element.querySelectorAll('.highlight.a').length).toBe(1)
+
+      await setScrollTop(component, 3 * component.getLineHeight())
+      expect(element.querySelectorAll('.highlight.a').length).toBe(0)
+    })
   })
 
   describe('overlay decorations', () => {
@@ -1861,6 +1874,7 @@ function getBaseCharacterWidth (component) {
 }
 
 async function setEditorHeightInLines(component, heightInLines) {
+  component.props.model.update({autoHeight: false})
   component.element.style.height = component.measurements.lineHeight * heightInLines + 'px'
   await component.getNextUpdatePromise()
 }
