@@ -2,10 +2,8 @@
 // throughout the build.
 
 'use strict'
-
 const fs = require('fs')
 const path = require('path')
-
 const repositoryRootPath = path.resolve(__dirname, '..')
 const apmRootPath = path.join(repositoryRootPath, 'apm')
 const scriptRootPath = path.join(repositoryRootPath, 'script')
@@ -16,11 +14,9 @@ const symbolsPath = path.join(buildOutputPath, 'symbols')
 const electronDownloadPath = path.join(repositoryRootPath, 'electron')
 const homeDirPath = process.env.HOME || process.env.USERPROFILE
 const atomHomeDirPath = process.env.ATOM_HOME || path.join(homeDirPath, '.atom')
-
 const appMetadata = require(path.join(repositoryRootPath, 'package.json'))
 const apmMetadata = require(path.join(apmRootPath, 'package.json'))
 const channel = getChannel()
-
 module.exports = {
   appMetadata, apmMetadata, channel,
   repositoryRootPath, apmRootPath, scriptRootPath,
