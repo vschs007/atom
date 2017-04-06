@@ -61,7 +61,6 @@ if [ $OS == 'Mac' ]; then
     ATOM_PATH="$(dirname "$ATOM_APP")"
     ATOM_APP_NAME="$(basename "$ATOM_APP")"
   fi
-
   if [ -n "$BETA_VERSION" ]; then
     ATOM_EXECUTABLE_NAME="Atom Beta"
   else
@@ -84,7 +83,6 @@ if [ $OS == 'Mac' ]; then
       fi
     fi
   fi
-
   if [ $EXPECT_OUTPUT ]; then
     "$ATOM_PATH/$ATOM_APP_NAME/Contents/MacOS/$ATOM_EXECUTABLE_NAME" --executed-from="$(pwd)" --pid=$$ "$@"
     exit $?
@@ -100,14 +98,10 @@ elif [ $OS == 'Linux' ]; then
   else
     ATOM_PATH="$USR_DIRECTORY/share/atom/atom"
   fi
-
   ATOM_HOME="${ATOM_HOME:-$HOME/.atom}"
   mkdir -p "$ATOM_HOME"
-
   : ${TMPDIR:=/tmp}
-
   [ -x "$ATOM_PATH" ] || ATOM_PATH="$TMPDIR/atom-build/Atom/atom"
-
   if [ $EXPECT_OUTPUT ]; then
     "$ATOM_PATH" --executed-from="$(pwd)" --pid=$$ "$@"
     exit $?
@@ -122,12 +116,11 @@ elif [ $OS == 'Linux' ]; then
   fi
 fi
 
-# Exits this process when Atom is used as $EDITOR
+
 on_die() {
   exit 0
 }
 trap 'on_die' SIGQUIT SIGTERM
-
 # If the wait flag is set, don't exit this process until Atom tells it to.
 if [ $WAIT ]; then
   while true; do
