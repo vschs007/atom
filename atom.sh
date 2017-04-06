@@ -1,5 +1,4 @@
 #!/bin/bash
-
 if [ "$(uname)" == 'Darwin' ]; then
   OS='Mac'
 elif [ "$(expr substr $(uname -s) 1 5)" == 'Linux' ]; then
@@ -8,15 +7,12 @@ else
   echo "Your platform ($(uname -a)) is not supported."
   exit 1
 fi
-
 if [ "$(basename $0)" == 'atom-beta' ]; then
   BETA_VERSION=true
 else
   BETA_VERSION=
 fi
-
 export ATOM_DISABLE_SHELLING_OUT_FOR_ENVIRONMENT=true
-
 while getopts ":wtfvh-:" opt; do
   case "$opt" in
     -)
@@ -45,11 +41,9 @@ while getopts ":wtfvh-:" opt; do
       ;;
   esac
 done
-
 if [ $REDIRECT_STDERR ]; then
   exec 2> /dev/null
 fi
-
 if [ $EXPECT_OUTPUT ]; then
   export ELECTRON_ENABLE_LOGGING=1
 fi
@@ -73,7 +67,6 @@ if [ $OS == 'Mac' ]; then
   else
     ATOM_EXECUTABLE_NAME="Atom"
   fi
-
   if [ -z "${ATOM_PATH}" ]; then
     # If ATOM_PATH isn't set, check /Applications and then ~/Applications for Atom.app
     if [ -x "/Applications/$ATOM_APP_NAME" ]; then
